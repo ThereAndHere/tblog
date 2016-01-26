@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}TBlog - EditPost{% endblock %}
+{% block page_content %}
+<div class="page-header">
+	<h1>EDIT POST</h1>
+</div>
+			{% for message in get_flashed_messages() %}
+			<div class="alert alert-warning">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ message }}
+			</div>
+			{% endfor %}
+<div>
+	{{ wtf.quick_form(form) }}
+
+</div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

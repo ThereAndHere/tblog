@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% set active_page = "new" %}
+{% block title %}TBlog - NewPost{% endblock %}
+{% block styles %}
+{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/github.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/railscasts.css')}}" />
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+	<h1>NEW POST</h1>
+</div>
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	{{ message }}
+</div>
+{% endfor %}
+<form class="form">
+	<div class="form-group  required">
+		<label class="control-label" for="title">Title</label>
+		<input type="text" name="title" class="form-control title" {% if post %}value="{{ post.post_title }}"{% endif %}/>
+	</div>
+	<div class="form-group  required">
+		<label class="control-label">Content</label>
+		<div class="suMarkdown" style="height:30em">
+		<style>
+
+		    .su-toolbar{
+			width:100%;
+			height:45px;
+			display: block;
+			background: #f5f5f5;
+			padding: 5px;
+			border: solid 1px;
+			border-color: #cccccc;
+		    }
+		    .su-toolbar .tool-block{
+			cursor: pointer;
+			display: block;
+			width:5%;
+			margin:0 1%;
+			height:35px;
+			float:left;
+			padding: 5px;
+		    }
+		    .su-toolbar .tool-block *{
+			left:20%;
+			top:20%;
+		    }
+		    .su-toolbar .tool-block:hover{
+			background: #00ffff;
+		    }
+		    .su-toolbar button{
+			margin-top:5px;
+		    }
+
+		    .suEditor{
+			width:50%;
+			float:left;
+			display: block;
+
+		    }
+		    .suEditor textarea{
+			width:100%;
+			height: 100%;
+			background: #f5f5f5;
+			tab-size: 4;
+			border:solid 1px;
+			border-top: none;
+			border-color: #cccccc;
+			padding: 20px;
+			resize: none;
+		    }
+		    .suEditor textarea:focus{
+			background: #fff;
+			border-color:#cccccc ;
+			outline: none;
+		    }
+		    .suPreview{
+			width:50%;
+			left:50%;
+			float:left;
+			background: #f5f5f5;
+			height: 400px;
+			display: block;
+			overflow: auto;
+			padding: 0 20px;
+			border-right: solid 1px;
+			border-bottom: solid 1px;
+			border-color: #cccccc;
+
+		    }
+
+		    .suProgress{
+			width: 100%;
+		    }
+
+		</style>
+		<div class="suProgress progress">
+		    <div class="progress-bar su-progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+			0%
+		    </div>
+		</div>
+		<div class="su-toolbar">
+		    <div class="tool-block su-tool-bold" title="加粗(Ctrl+B)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-bold"></span>
+		    </div>
+		    <div class="tool-block su-tool-italic" title="斜体(Ctrl+I)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-italic"></span>
+		    </div>
+		    <div class="tool-block su-tool-head" title="标题(Ctrl+H)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-header"></span>
+		    </div>
+		    <div class="tool-block su-tool-link" title="链接(Ctrl+L)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-link"></span>
+		    </div>
+		    <div class="tool-block su-tool-img" title="图片(Ctrl+G)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-picture"></span>
+		    </div>
+		    <div class="tool-block su-tool-list" title="无序列表(Ctrl+U)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-list"></span>
+		    </div>
+		    <div class="tool-block su-tool-orderlist" title="有序列表(Ctrl+O)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-th-list"></span>
+		    </div>
+		    <div class="tool-block su-tool-code" title="单行代码(Ctrl+K)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-asterisk"></span>
+		    </div>
+		    <div class="tool-block su-tool-quote" title="引用(Ctrl+Q)" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-comment"></span>
+		    </div>
+
+
+		    <div class="tool-block su-tool-plus" title="文件上传" data-placement="top" data-toggle="tooltip" style="display: block;">
+
+			<span class="glyphicon glyphicon-upload"></span>
+		    </div>
+		    <input type="file" style="display: none" class="su-tool-upload" multiple="">
+
+		    <a class="tool-block su-tool-help" href="http://lab.lepture.com/editor/markdown" title="帮助" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-info-sign"></span>
+		    </a>
+
+		    <div class="tool-block pull-right su-tool-fullscreen" title="全屏" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-fullscreen"></span>
+		    </div>
+
+		    <div class="tool-block pull-right su-tool-preview" title="预览" data-placement="top" data-toggle="tooltip">
+			<span class="glyphicon glyphicon-eye-open"></span>
+		    </div>
+		</div>
+
+		<div class="suEditor">
+		    <textarea class="mdEditor">{% if post %}{{ post.post_body }}{% endif %}
+		    </textarea>
+		</div>
+		<article class="suPreview">
+		</article>
+		<div>
+			<span class="button next mdSubmit">Submit</span>
+		</div>
+	</div>
+</form>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+	<script src="{{ url_for('static', filename='js/highlight.pack.js') }}"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<script src="{{ url_for('static', filename='js/marked.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/suMarkdown.js') }}"></script>
+	<script>
+$(function(){
+	var option={
+		    target:'.suMarkdown',
+		    preview:false,
+		    upload:"{{ url_for('posts.upload_file') }}"
+	};
+	SuMarkdown(option);
+});
+$(".mdSubmit").on('click',function(event){
+	event.preventDefault();
+	var data = {
+		data: JSON.stringify({
+			"title":$(".title").val(),
+			"content":$(".mdEditor").val()
+		})
+	};
+	var msg_alert = "<div class=\"alert alert-warning\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>";
+
+	$.ajax({
+		{% if post %}
+		url:"{{ url_for('posts.submit_post_by_id', id=post.post_id) }}",
+		{% else %}
+		url:"{{ url_for('posts.submit_post') }}",
+		{% endif %}
+   		type: 'POST',
+   		data: data,
+   		success: function(msg){
+			$(".form").before(msg_alert+msg+"</div>");
+            }
+	})
+});
+	</script>
+{% endblock %}

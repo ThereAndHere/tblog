@@ -1,0 +1,80 @@
+{% extends "bootstrap/base.html" %}
+{% set active_page = active_page|default('default') %}
+
+{% block metas %}
+{{ super() }}
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+$(function(){
+	var body_height = $(window).height();
+	var content_height = $("#content").height();
+	var content_outer = 0;
+	var index = 0;
+	if (content_height == null) {
+		content_height = $("#index-content").height();
+		content_outer = $("#index-content").outerHeight(true) - content_height;
+		index = 1;
+	}
+	else {
+		content_outer = $("#content").outerHeight(true) - content_height;
+	}
+	if (content_height < body_height) {
+		if (index) {
+			$('#index-content').height(body_height - content_outer);
+		}
+		else {
+			$("#content").height(body_height - content_outer);
+		}
+
+	}
+});
+
+	</script>
+{% endblock %}
+
+{% block content %}
+		<!-- Content -->
+			<div id={% if active_page=='index' %}"index-content"{% else %}"content"{% endif %}>
+				{% block page_content %}{% endblock %}
+			</div>
+
+
+		<!-- Sidebar -->
+			<div id="sidebar">
+
+				<!-- Logo -->
+					<h1 id="logo"><a href="#">TBLOG</a></h1>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li{% if active_page=='index' %} class="current"{% endif %}><a href="{{ url_for("main.index") }}">Latest Post</a></li>
+							<li{% if active_page=='posts' %} class="current"{% endif %}><a href="{{ url_for("posts.list_posts") }}">Archives</a></li>
+							{% if current_user.is_authenticated %}
+							<li{% if active_page=='new' %} class="current"{% endif %}><a href="{{ url_for('posts.new_post') }}">New Post</a></li>
+								<li><a href="{{ url_for('user.logout') }}">Logout</a></li> 
+							{% else %}
+								<li><a href="{{ url_for('user.login') }}">Login</a></li>
+							{% endif %}
+						</ul>
+					</nav>
+
+
+				<!-- Copyright -->
+					<ul id="copyright">
+						<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+
+			</div>
+
+{% endblock %}

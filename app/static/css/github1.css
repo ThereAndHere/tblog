@@ -1,0 +1,36 @@
+article h1, article h2,
+article h3, article h4,
+article h5, article h6
+{font-weight:700;position:relative;margin-top:15px;margin-bottom:15px;line-height:1.1}
+
+article h1,
+article h2
+{border-bottom:1px solid #eee}
+
+article hr{height:0;margin:15px 0;overflow:hidden;background:0 0;border:0;border-bottom:1px solid #ddd}
+/*
+article a{color:#4183C4}
+
+article a.absent{color:#c00}
+*/
+article ol,
+article ul
+{padding-left:15px;margin-left:5px}
+
+article ol{list-style-type:lower-roman}
+
+article table{padding:0}
+
+article table tr{border-top:1px solid #ccc;background-color:#fff;margin:0;padding:0}
+
+article table tr:nth-child(2n){background-color:#aaa}
+
+article table tr th{font-weight:700;border:1px solid #ccc;text-align:left;margin:0;padding:6px 13px}
+
+article table tr td{border:1px solid #ccc;text-align:left;margin:0;padding:6px 13px}
+
+article table tr td :first-child,article table tr th :first-child{margin-top:0}
+article table tr td:last-child,article table tr th :last-child{margin-bottom:0}
+article img{max-width:100%}
+article code{padding:0 5px;background-color:#d3d3d3}
+article blockquote{padding: 0 15px;border-left:4px solid #ccc}
