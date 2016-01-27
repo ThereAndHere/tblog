@@ -6,4 +6,5 @@ uploads/*
 
 *.sqlite
 *.pyc
+*.swp
 db.dia
