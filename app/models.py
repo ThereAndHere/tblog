@@ -64,6 +64,7 @@ class Post(db.Model):
     post_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     post_summary = db.Column(db.Text)
     post_readcnt = db.Column(db.Integer, default=0)
+    post_link = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     commits = db.relationship('Commit', backref='post', lazy='dynamic')
 

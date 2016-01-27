@@ -11,3 +11,7 @@ def index():
     posts = Post.query.order_by(Post.post_timestamp.desc())
     return render_template('index.html', posts=posts)
 
+@main.route('/login')
+def login():
+    return redirect(url_for('user.login'))
+

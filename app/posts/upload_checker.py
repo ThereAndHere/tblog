@@ -22,7 +22,7 @@ class UploadChecker:
             self.message = "ok"
             self.file_type = re
         else:
-            self.is_of = False
+            self.is_ok = False
             self.message = "Not support type"
 
     def get_result(self):

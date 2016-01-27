@@ -44,6 +44,7 @@ def submit_post():
     data = json.loads(request.form.get('data'))
     post = Post(post_title=data['title'],
                 post_body=data['content'],
+                post_link=data['link'],
                 user=current_user._get_current_object())
     db.session.add(post)
     db.session.commit()
@@ -57,6 +58,7 @@ def submit_post_by_id(id):
         data = json.loads(request.form.get('data'))
         post.post_title = data['title']
         post.post_body = data['content']
+        post.post_link = data['link']
         db.session.add(post)
         return 'Submit Success'
     return "Post doesn't exits"
@@ -93,6 +95,14 @@ def edit_post(id):
 @posts.route('/detail/<int:id>', methods=['POST', 'GET'])
 def show_post(id):
     post = Post.query.get_or_404(id)
+    post.post_readcnt += 1
+    return render_template('posts/post.html', post=post)
+
+@posts.route('/detail/<string:link>', methods=['POST', 'GET'])
+def show_post_by_link(link):
+    post = Post.query.filter_by(post_link=link).first()
+    if not post:
+        abort(404)
     post.post_readcnt += 1
     return render_template('posts/post.html', post=post)
 
