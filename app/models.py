@@ -32,7 +32,7 @@ class User(db.Model, UserMixin):
     user_regtime = db.Column(db.DateTime(), default=datetime.utcnow)
     role_id = db.Column(db.Integer, db.ForeignKey('role.role_id'))
     posts = db.relationship('Post', backref='user', lazy='dynamic')
-    commits = db.relationship('Commit', backref='user', lazy='dynamic')
+    comments = db.relationship('Comment', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.user_name
@@ -66,7 +66,7 @@ class Post(db.Model):
     post_readcnt = db.Column(db.Integer, default=0)
     post_link = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
-    commits = db.relationship('Commit', backref='post', lazy='dynamic')
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def __repr__(self):
         return '<Post %r>' % self.post_title
@@ -93,15 +93,15 @@ class Post(db.Model):
 db.event.listen(Post.post_body, 'set', Post.on_change_body)
 db.event.listen(Post.post_htmlbody, 'set', Post.on_change_htmlbody)
 
-class Commit(db.Model):
-    __tablename__ = 'commit'
-    commit_id = db.Column(db.Integer, primary_key=True)
-    commit_body = db.Column(db.Text)
-    commit_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    commit_author = db.Column(db.String(64))
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    comment_id = db.Column(db.Integer, primary_key=True)
+    comment_body = db.Column(db.Text)
+    comment_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    comment_author = db.Column(db.String(64))
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'))
 
     def __repr__(self):
-        return '<Commit %d>' % self.commit_id
+        return '<Comment %d>' % self.comment_id
 
