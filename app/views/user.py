@@ -1,11 +1,14 @@
 #!/bin/env python3
+from flask import Blueprint
 
-from . import user
 from ..models import User
 from .. import db
-from .forms import LoginForm
+from ..forms.login_form import LoginForm
 from flask import render_template, redirect, request, url_for, flash
 from flask.ext.login import login_user, login_required, logout_user
+
+user = Blueprint('user', __name__)
+
 
 
 @user.route('/login', methods=['GET', 'POST'])

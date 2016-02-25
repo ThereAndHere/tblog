@@ -1,17 +1,20 @@
 #!/bin/env python3
 
 import os
+from flask import Blueprint
+
 from . import posts
 from ..models import User, Post
 from .. import db
-from .forms import PostEditForm
-from .upload_checker import UploadChecker
+from ..utils.upload_checker import UploadChecker
 from flask import render_template, redirect, request, url_for, flash, abort, current_app
 from flask import json, jsonify
 from flask.ext.login import login_required, current_user
 from werkzeug.utils import secure_filename
 import imghdr
 from io import BufferedReader
+
+posts = Blueprint('posts', __name__)
 
 @posts.route('/')
 def list_posts():
