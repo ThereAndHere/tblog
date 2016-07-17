@@ -3,7 +3,7 @@
 import os
 from flask import Blueprint
 
-from . import posts
+#from . import posts
 from ..models import User, Post
 from .. import db
 from ..utils.upload_checker import UploadChecker
