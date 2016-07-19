@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/bin/env python
 
 import os
 from app import create_app, db
@@ -12,6 +12,15 @@ migrate = Migrate(app, db)
 
 def make_shell_comtext():
     return dict(app=app, db=db, User=User, Role=Role, Post=Post, Comment=Comment)
+
+@manager.command
+def useradd(name, passwd):
+    user = User()
+    user.user_name = name
+    user.password = passwd
+    db.session.add(user)
+    db.session.commit()
+    print("Add user %s success" % name)
 
 manager.add_command("shell", Shell(make_context=make_shell_comtext))
 manager.add_command('db', MigrateCommand)
